@@ -6,7 +6,6 @@ from OpenGL.GLUT import *
 
 __author__ = 'ipetrash'
 
-window = 0  # glut window number
 width, height = 400, 400  # window size
 field_width, field_height = 50, 50  # internal resolution
 interval = 300  # update interval in milliseconds
@@ -37,7 +36,7 @@ food = []  # food list of type (x, y)
 
 
 def draw_snake():
-    glColor3f(1.0, 1.0, 1.0)  # set color to white
+    glColor3f(0.0, 1.0, 0.0)  # set color to white
     for x, y in snake:  # go through each (x, y) entry
         draw_rect(x, y, 1, 1)  # draw it at (x, y) with width=1 and height=1
 
@@ -88,26 +87,26 @@ def keyboard(*args):
 
     key = args[0]
     if key == GLUT_KEY_LEFT:
-        snake_dir = (-1, 0)  # left
+        snake_dir = -1, 0  # left
 
     elif key == GLUT_KEY_UP:
-        snake_dir = (0, 1)  # up
+        snake_dir = 0, 1  # up
 
     elif key == GLUT_KEY_RIGHT:
-        snake_dir = (1, 0)  # right
+        snake_dir = 1, 0  # right
 
     elif key == GLUT_KEY_DOWN:
-        snake_dir = (0, -1)  # down
+        snake_dir = 0, -1  # down
 
 
-# initialization
-glutInit()  # initialize glut
-glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH)
-glutInitWindowSize(width, height)  # set window size
-# glutInitWindowPosition(0, 0)  # set window position
-window = glutCreateWindow(b"snake")  # create window with title
-glutDisplayFunc(draw)  # set draw function callback
-glutIdleFunc(draw)  # draw all the time
-glutSpecialFunc(keyboard)  # tell opengl that we want to check keys
-glutTimerFunc(interval, update, 0)  # trigger next update
-glutMainLoop()  # start everything
+if __name__ == '__main__':
+    # initialization
+    glutInit()  # initialize glut
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH)
+    glutInitWindowSize(width, height)  # set window size
+    glutCreateWindow(b"snake")  # create window with title
+    glutDisplayFunc(draw)  # set draw function callback
+    glutIdleFunc(draw)  # draw all the time
+    glutSpecialFunc(keyboard)  # tell opengl that we want to check keys
+    glutTimerFunc(interval, update, 0)  # trigger next update
+    glutMainLoop()  # start everything
