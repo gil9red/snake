@@ -7,29 +7,29 @@ from OpenGL.GLUT import *
 __author__ = 'ipetrash'
 
 width, height = 400, 400  # window size
-field_width, field_height = 50, 50  # internal resolution
+field_width, field_height = 40, 40  # internal resolution
 interval = 300  # update interval in milliseconds
 
 
-def refresh2d_custom(width, height, internal_width, internal_height):
-    glViewport(0, 0, width, height)
+def refresh2d_custom(w, h, i_w, i_h):
+    glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    glOrtho(0.0, internal_width, 0.0, internal_height, 0.0, 1.0)
+    glOrtho(0.0, i_w, 0.0, i_h, 0.0, 1.0)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 
 
-def draw_rect(x, y, width, height):
+def draw_rect(x, y, w, h):
     glBegin(GL_QUADS)  # start drawing a rectangle
     glVertex2f(x, y)  # bottom left point
-    glVertex2f(x + width, y)  # bottom right point
-    glVertex2f(x + width, y + height)  # top right point
-    glVertex2f(x, y + height)  # top left point
+    glVertex2f(x + w, y)  # bottom right point
+    glVertex2f(x + w, y + h)  # top right point
+    glVertex2f(x, y + h)  # top left point
     glEnd()  # done drawing a rectangle
 
 
-snake = [(20, 20)]  # snake list of (x, y) positions
+snake = [(field_width // 2, field_height // 2)]  # snake list of (x, y) positions
 snake_dir = (1, 0)  # snake movement direction
 
 food = []  # food list of type (x, y)
@@ -42,7 +42,7 @@ def draw_snake():
 
 
 def draw_food():
-    glColor3f(0.5, 0.5, 1.0)  # set color to blue
+    glColor3f(1.0, 1.0, 0.0)  # set color to blue
     for x, y in food:  # go through each (x, y) entry
         draw_rect(x, y, 1, 1)  # draw it at (x, y) with width=1 and height=1
 
@@ -64,6 +64,11 @@ def vec_add(x1, y1, x2, y2):
 
 def update(value):
     hx, hy = snake[0]  # get the snake's head x and y position
+
+    # TODO: проверка границ
+    # if hx < 0 or hx >= field_width or hy < 0 or hy >= field_height:
+    #     print('стенка!')
+
     vx, vy = snake_dir
     snake.insert(0, vec_add(hx, hy, vx, vy))  # insert new position in the beginning of the snake list
     snake.pop()  # remove the last element
